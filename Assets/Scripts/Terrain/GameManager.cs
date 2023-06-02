@@ -16,8 +16,8 @@ public class GameManager : MonoBehaviour
         noiseGenerator = new NoiseGenerator();
         voxelGeneration = new VoxelGeneration();
 
-        float[,] heightMap = noiseGenerator.GenerateNoise(chunkSize, chunkSize, pointDistance);
-        voxelGeneration.GenerateVoxels(playerObject, heightMap, heightScale);
+        float[,] heightMap = noiseGenerator.GenerateNoise(chunkSize, pointDistance);
+        voxelGeneration.GenerateVoxels(playerObject, heightMap, chunkSize, heightScale);
     }
 
     void Update()

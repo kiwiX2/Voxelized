@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class NoiseGenerator
 {
-    public float[,] GenerateNoise(int width, int height, float pointDistance) 
+    public float[,] GenerateNoise(int chunkSize, float pointDistance) 
     {
-        float[,] noiseMap = new float[width, height];
+        float[,] noiseMap = new float[chunkSize, chunkSize];
 
-        for(int i = 0; i < width; i++) 
+        for(int i = 0; i < chunkSize; i++) 
         {
-            for(int j = 0; j < height; j++) 
+            for(int j = 0; j < chunkSize; j++) 
             {
                 float x = i * pointDistance;
                 float y = j * pointDistance;
