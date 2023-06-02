@@ -4,20 +4,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private VoxelGeneration voxelGeneration;
-    private NoiseGenerator noiseGenerator;
+    private WorldGen worldGeneration;
     public GameObject playerObject;
-    public float heightScale = 5;
-    public float pointDistance = 0.2f;
     public int chunkSize = 16;
+    public float pointDistance = 0.2f;
+    public float heightScale = 5;
 
     void Start()
     {
-        noiseGenerator = new NoiseGenerator();
-        voxelGeneration = new VoxelGeneration();
-
-        float[,] heightMap = noiseGenerator.GenerateNoise(chunkSize, pointDistance);
-        voxelGeneration.GenerateVoxels(playerObject, heightMap, chunkSize, heightScale);
+        worldGeneration = new();
+        worldGeneration.GenerateMap(chunkSize, pointDistance, heightScale);
     }
 
     void Update()
