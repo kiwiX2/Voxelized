@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WorldGen
 {
-    public float[,] GenerateMap(int chunkSize, float pointDistance, float heightScale)
+    public void GenerateChunk(Vector2 chunkCoordinate, int chunkSize, float heightScale, float pointDistance)
     {
         float[,] map = new float[chunkSize, chunkSize];
 
@@ -12,11 +12,14 @@ public class WorldGen
         {
             for (int j = 0; j < chunkSize; j++)
             {
-                map[i, j] = Mathf.PerlinNoise(i * pointDistance, j * pointDistance);
-                CreateVoxel(new(i, Mathf.Floor(map[i, j] * heightScale), j), Color.green);
+                Vector2 chunkInWorld = new Vector2(chunkCoordinate.x * chunkSize, chunkCoordinate.y * chunkSize); 
+                map[i, j] = Mathf.PerlinNoise((i + chunkInWorld.x) * pointDistance, (j + chunkInWorld.y) * pointDistance);
+                CreateVoxel(new Vector3(
+                    i + chunkInWorld.x, 
+                    Mathf.Floor(map[i, j] * heightScale), 
+                    j + chunkInWorld.y), Color.green);
             }
-        };
-        return map;
+        }
     }
 
     public void CreateVoxel(Vector3 position, Color color)

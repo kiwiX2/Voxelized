@@ -9,7 +9,7 @@ public class Movement : MonoBehaviour
     public float jumpHeight = 2f;
     public int dragOnGround = 2; 
     public int dragInAir = 1;
-    bool grounded = false;
+    private bool grounded = false;
 
     Rigidbody charRb;
     Collider sphereCollider;

@@ -709,9 +709,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerObject: {fileID: 1010929396}
-  chunkSize: 32
-  pointDistance: 0.05
+  chunkSize: 16
   heightScale: 10
+  pointDistance: 0.05
+  renderDistance: 2
 --- !u!4 &1096052750
 Transform:
   m_ObjectHideFlags: 0
