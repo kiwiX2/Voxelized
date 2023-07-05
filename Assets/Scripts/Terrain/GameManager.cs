@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     public float pointDistance = 0.2f;
     public int renderDistance = 2;
 
-
     private Dictionary<Vector2, bool> chunkMap;
 
     void Start()
@@ -35,6 +34,12 @@ public class GameManager : MonoBehaviour
         }
         previousChunk = playerChunk;
 
+        CallGeneration();
+        NukeChunks();
+    }
+
+    void CallGeneration()
+    {
         for (int i = -renderDistance; i <= renderDistance; i++)
         {
             for (int j = -renderDistance; j <= renderDistance; j++)
@@ -46,22 +51,26 @@ public class GameManager : MonoBehaviour
                     worldGen.Chunkify(chunkCoordinate, chunkSize, heightScale, pointDistance, true);
                 }
             }
+        }
+    }
 
-            List<Vector2> chunksToNuke = new List<Vector2>();
-            foreach (var chunk in chunkMap.Keys) 
-            {
-                int distanceX = Mathf.Abs((int)(playerChunk.x - chunk.x));
-                int distanceY = Mathf.Abs((int)(playerChunk.y - chunk.y));
+    void NukeChunks()
+    {
+        List<Vector2> chunksToNuke = new List<Vector2>();
+        foreach (var chunk in chunkMap.Keys) 
+        {
+            int distanceX = Mathf.Abs((int)(playerChunk.x - chunk.x));
+            int distanceY = Mathf.Abs((int)(playerChunk.y - chunk.y));
 
-                if (distanceX > renderDistance || distanceY > renderDistance) {
-                    chunksToNuke.Add(chunk);
-                }
-            }
-            foreach (Vector2 chunk in chunksToNuke) 
+            if (distanceX > renderDistance || distanceY > renderDistance) 
             {
-                worldGen.Chunkify(chunk, chunkSize, heightScale, pointDistance, false);
-                chunkMap.Remove(chunk);
+                chunksToNuke.Add(chunk);
             }
+        }
+        foreach (Vector2 chunk in chunksToNuke) 
+        {
+            worldGen.Chunkify(chunk, chunkSize, heightScale, pointDistance, false);
+            chunkMap.Remove(chunk);
         }
     }
 }
