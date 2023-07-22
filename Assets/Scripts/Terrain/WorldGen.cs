@@ -54,7 +54,7 @@ public class WorldGen
     Color GetVoxelColor(float yValue)
     {    
         int colorVariant = Random.Range(0, 3);
-        bool isWhite = Random.Range(snowThreshold, 1f) <= yValue / snowOffset;
+        bool isWhite = Random.Range(snowThreshold, 1) <= yValue / snowOffset;
         bool isGrey = Random.Range(stoneThreshold, snowThreshold) <= yValue / stoneOffset;
         
         switch ((isWhite, isGrey)) 

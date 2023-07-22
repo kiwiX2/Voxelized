@@ -643,12 +643,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db6b457aa6369a43970dd0478a4619e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 30
   sprintSpeed: 25
   jumpHeight: 12
-  dragOnGround: 2
-  dragInAir: 4
+  dragOnGround: 3
+  dragInAir: 5
   camera: {fileID: 330585546}
+  charBody: {fileID: 307096768}
+  charLeftFoot: {fileID: 1815371301}
+  charRightFoot: {fileID: 592571782}
+  charLeftHand: {fileID: 600677369}
+  charRightHand: {fileID: 2012681706}
+  transformAmount: 0.05
 --- !u!54 &1010929401
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -712,7 +718,7 @@ MonoBehaviour:
   chunkSize: 8
   heightScale: 50
   pointDistance: 0.1
-  renderDistance: 16
+  renderDistance: 8
 --- !u!4 &1096052750
 Transform:
   m_ObjectHideFlags: 0

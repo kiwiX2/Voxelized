@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     private WorldGen worldGen;
 
     public int chunkSize = 16;
-    public float heightScale = 5;
+    public float heightScale = 5f;
     public float pointDistance = 0.2f;
     public int renderDistance = 2;
 
