@@ -654,7 +654,6 @@ MonoBehaviour:
   charRightFoot: {fileID: 592571782}
   charLeftHand: {fileID: 600677369}
   charRightHand: {fileID: 2012681706}
-  transformAmount: 0.05
 --- !u!54 &1010929401
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -714,11 +713,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8f9768a25c60a479c741298957dfa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 1010929396}
   chunkSize: 8
   heightScale: 50
   pointDistance: 0.1
   renderDistance: 8
+  playerObject: {fileID: 1010929396}
 --- !u!4 &1096052750
 Transform:
   m_ObjectHideFlags: 0

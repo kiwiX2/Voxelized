@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class WorldGen
 {
-    private Color colorMod = new Color(0.05f, 0.05f, 0.05f);
-    private Color voxelColor;
-    private float snowOffset;
-    private float snowThreshold = 0.85f;
-    private float stoneOffset;
-    private float stoneThreshold = 0.65f;
-    private Dictionary<Vector3, GameObject> voxelObjects; 
+    Color colorMod = new Color(0.05f, 0.05f, 0.05f);
+    Color voxelColor;
+    float snowOffset;
+    float snowThreshold = 0.85f;
+    float stoneOffset;
+    float stoneThreshold = 0.65f;
+    Dictionary<Vector3, GameObject> voxelObjects; 
 
     public WorldGen()
     {

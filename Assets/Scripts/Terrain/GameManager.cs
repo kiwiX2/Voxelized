@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject playerObject;
-    private Vector3 playerPosition;
-    private Vector2 playerChunk;
-    private Vector2 previousChunk = new Vector2(1, 1);
-    private Vector2 chunkCoordinate;
-    private WorldGen worldGen;
+    Vector3 playerPosition;
+    Vector2 playerChunk;
+    Vector2 previousChunk = new Vector2(1, 1);
+    Vector2 chunkCoordinate;
+    WorldGen worldGen;
+    Dictionary<Vector2, bool> chunkMap;
 
     public int chunkSize = 16;
     public float heightScale = 5f;
     public float pointDistance = 0.2f;
     public int renderDistance = 2;
-
-    private Dictionary<Vector2, bool> chunkMap;
+    public GameObject playerObject;
 
     void Start()
     {

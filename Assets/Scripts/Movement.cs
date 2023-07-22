@@ -9,9 +9,15 @@ public class Movement : MonoBehaviour
     public float jumpHeight = 2f;
     public int dragOnGround = 2; 
     public int dragInAir = 1;
-    private bool grounded = false;
+    bool grounded = false;
+
+    float transformTarget;
+    float transformAmount = 0.05f;
+
+    float charRotation;
 
     Rigidbody charRb;
+    Transform charTransform;
     Collider sphereCollider;
     public Transform camera;
 
@@ -21,15 +27,13 @@ public class Movement : MonoBehaviour
     public Transform charLeftHand;
     public Transform charRightHand;
 
-    private Vector3 leftFootOriginalPos;
-    private Vector3 rightFootOriginalPos;
-
-    public float transformAmount = 0.1f;
-    private float transformTarget;
+    Vector3 leftFootOriginalPos;
+    Vector3 rightFootOriginalPos;
 
     void Start() 
     {
         charRb = GetComponent<Rigidbody>();
+        charTransform = GetComponent<Transform>();
         sphereCollider = gameObject.transform.GetChild(0).GetComponent<Collider>();
 
         leftFootOriginalPos = charLeftFoot.transform.localPosition;
@@ -52,6 +56,16 @@ public class Movement : MonoBehaviour
             charRb.drag = dragInAir;
             charRb.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
         }
+        
+        float mouseDelta = Input.GetAxisRaw("Mouse X");
+
+        if (mouseDelta == 0)
+        {
+            return;
+        }
+
+        charRotation += mouseDelta;
+        charTransform.transform.rotation = Quaternion.Euler(0, charRotation, 0);
     }
 
     void OnCollisionEnter(Collision collision) 
@@ -93,7 +107,7 @@ public class Movement : MonoBehaviour
     void RotationLerp(Transform rotationObject, Quaternion targetRotation)
     {
         rotationObject.transform.localRotation = Quaternion.Lerp(
-            rotationObject.transform.rotation, 
+            rotationObject.transform.localRotation, 
             targetRotation, 
             0.2f);
     }
