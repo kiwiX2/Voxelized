@@ -29,19 +29,24 @@ public class WorldGen
             for (int j = 0; j < chunkSize; j++)
             {
                 Vector2 chunkInWorld = new Vector2(chunkCoordinate.x * chunkSize, chunkCoordinate.y * chunkSize); 
+                float currentXCoordinate = i + chunkInWorld.x;
+                float currentZCoordinate = j + chunkInWorld.y;
 
                 map[i, j] = Mathf.PerlinNoise(
-                    (i + chunkInWorld.x + mapOffset) * pointDistance * 0.1f, 
-                    (j + chunkInWorld.y + mapOffset) * pointDistance * 0.1f);
+                    (currentXCoordinate + mapOffset) * pointDistance * 0.1f, 
+                    (currentZCoordinate + mapOffset) * pointDistance * 0.1f
+                );
 
                 Vector3 voxelPosition = new Vector3(
-                    i + chunkInWorld.x, 
+                    currentXCoordinate, 
                     Mathf.Floor(map[i, j] * heightScale), 
-                    j + chunkInWorld.y); 
+                    currentZCoordinate
+                ); 
 
                 if (create) 
                 {
-                    voxelColor = GetVoxelColor(voxelPosition.y);
+                    Vector3 currentVoxelPosition = new Vector3(currentXCoordinate, voxelPosition.y, currentZCoordinate);
+                    voxelColor = GetVoxelColor(currentVoxelPosition);
                     CreateVoxel(voxelPosition, voxelColor);
                 } else 
                 {
@@ -51,11 +56,11 @@ public class WorldGen
         }
     }
 
-    Color GetVoxelColor(float yValue)
+    Color GetVoxelColor(Vector3 voxelPos)
     {    
         int colorVariant = Random.Range(0, 3);
-        bool isWhite = Random.Range(snowThreshold, 1) <= yValue / snowOffset;
-        bool isGrey = Random.Range(stoneThreshold, snowThreshold) <= yValue / stoneOffset;
+        bool isWhite = Random.Range(snowThreshold, 1) <= voxelPos.y / snowOffset;
+        bool isGrey = Random.Range(stoneThreshold, snowThreshold) <= voxelPos.y / stoneOffset;
         
         switch ((isWhite, isGrey)) 
         {
@@ -69,6 +74,13 @@ public class WorldGen
 
             default:
                 voxelColor = Color.green;
+
+                //tree chance on grass voxels
+                if (Random.value > 0.99f)
+                {
+                    TreeGeneratorinator(voxelPos);
+                }
+
                 break;
         }
 
@@ -83,7 +95,7 @@ public class WorldGen
         }
     }
 
-    public void CreateVoxel(Vector3 position, Color color)
+    void CreateVoxel(Vector3 position, Color color)
     {
         GameObject voxelObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
         Renderer renderer = voxelObject.GetComponent<Renderer>();
@@ -96,9 +108,15 @@ public class WorldGen
         voxelObjects[position] = voxelObject;
     }
 
-    public void RemoveVoxel(Vector3 position) 
+    void RemoveVoxel(Vector3 position) 
     {
         Object.Destroy(voxelObjects[position]);
         voxelObjects.Remove(position);
+    }
+
+    void TreeGeneratorinator(Vector3 voxelPos)
+    {
+        Vector3 treeVoxelPos = new Vector3(voxelPos.x, voxelPos.y + 1, voxelPos.z);
+        CreateVoxel(treeVoxelPos, Color.magenta);
     }
 }
