@@ -481,7 +481,7 @@ GameObject:
   - component: {fileID: 443572836}
   - component: {fileID: 443572835}
   m_Layer: 5
-  m_Name: Grow Trees
+  m_Name: Grow Tree Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -554,7 +554,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1547414157}
         m_TargetAssemblyTypeName: MenuHandler, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: GrowTrees
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -969,6 +969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2d88b6f2a1d7ec4b99c2d54b46f56b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  woodMaterial: {fileID: 2100000, guid: 9de8723d829cfb14c8269c3606823e2d, type: 2}
 --- !u!4 &1547414158
 Transform:
   m_ObjectHideFlags: 0
@@ -1330,7 +1331,6 @@ GameObject:
   - component: {fileID: 1874557735}
   - component: {fileID: 1874557734}
   - component: {fileID: 1874557733}
-  - component: {fileID: 1874557737}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1425,18 +1425,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1874557737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1874557732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2d88b6f2a1d7ec4b99c2d54b46f56b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2017254669
 GameObject:
   m_ObjectHideFlags: 0
@@ -1449,7 +1437,7 @@ GameObject:
   - component: {fileID: 2017254672}
   - component: {fileID: 2017254671}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Tree Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
