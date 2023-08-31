@@ -19,7 +19,7 @@ public class Movement : MonoBehaviour
     Rigidbody charRb;
     Transform charTransform;
     Collider sphereCollider;
-    public Transform camera;
+    public Transform charCamera;
 
     public Transform charBody;
     public Transform charLeftFoot;

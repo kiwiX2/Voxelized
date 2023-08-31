@@ -3,21 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class TreeCreator : MonoBehaviour
+public class TreeCreator
 {
-    public Material woodMaterial;
+    GameObject empty;
 
     string axiom = "V";
     int iterations = 3;
 
-    public void CreateTree()
+    public void CreateTree(Material woodMaterial)
     {
+        empty = new GameObject("Tree");
         string tree = axiom;   
-        for (int i = 1; i < iterations; i++)
+
+        for (int i = 1; i <= iterations; i++)
         {
             tree = GenerateNext(tree);
             Debug.Log(tree);
-        }        
+        }
+
+        Treeifyinator(tree, woodMaterial);
+        PrefabUtility.SaveAsPrefabAsset(empty, "Assets/Prefabs/Tree.prefab");
     }
 
     string GenerateNext(string tree)
@@ -40,12 +45,37 @@ public class TreeCreator : MonoBehaviour
         return output;
     }
 
-    void ExampleName() 
+    void Treeifyinator(string tree, Material woodMaterial)
     {
-        /*
-        Vector3 position = new Vector3(1, 1, 1);
+        Vector3 currentPosition = new Vector3(0, 0, 0);
 
-        GameObject empty = new GameObject("Tree");
+        foreach (char c in tree)
+        {
+            if (c == 'V')
+            {
+                Prefabify(currentPosition, woodMaterial);
+                currentPosition += Vector3.up;
+            }
+
+            else if (c == 'L')
+            {
+
+            }
+
+            else if (c == '[')
+            {
+
+            }
+
+            else if (c == ']')
+            {
+                
+            }
+        }
+    }
+
+    void Prefabify(Vector3 position, Material woodMaterial) 
+    {
         GameObject voxelObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
         Renderer renderer = voxelObject.GetComponent<Renderer>();
         Material material = renderer.material;
@@ -54,8 +84,5 @@ public class TreeCreator : MonoBehaviour
         renderer.material = woodMaterial;
         material.SetFloat("_Smoothness", 0.2f);
         voxelObject.transform.SetParent(empty.transform);
-
-        PrefabUtility.SaveAsPrefabAsset(empty, "Assets/Prefabs/Tree.prefab");
-        */
     }
 }

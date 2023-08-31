@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuHandler : MonoBehaviour
 {
+    public Material woodMaterial;
     TreeCreator treeCreator;
     
     void Start()
@@ -14,7 +15,7 @@ public class MenuHandler : MonoBehaviour
 
     public void GrowTrees()
     {
-        treeCreator.CreateTree();
+        treeCreator.CreateTree(woodMaterial);
     }
 
     public void StartGame()
