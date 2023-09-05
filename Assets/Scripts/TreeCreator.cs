@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Linq;
 
 public class TreeCreator
 {
@@ -9,6 +10,8 @@ public class TreeCreator
 
     string axiom = "V";
     int iterations = 3;
+    int leanX = 0;
+    int leanZ = 0;
 
     public void CreateTree(Material woodMaterial)
     {
@@ -33,12 +36,12 @@ public class TreeCreator
         {
             if (c == 'V') 
             {
-                output += "V[LL]V";
+                output += "V[VLL]V";
             } 
 
             else if (c == 'L')
             {
-                output += "LL[V]L";
+                output += "LL[VV]L";
             }
         }
 
@@ -48,11 +51,13 @@ public class TreeCreator
     void Treeifyinator(string tree, Material woodMaterial)
     {
         Vector3 currentPosition = new Vector3(0, 0, 0);
+        List<Vector3> branches = new List<Vector3>();
 
         foreach (char c in tree)
         {
-            if (c == 'V')
+            if (c == 'V' || c == 'L')
             {
+                currentPosition += new Vector3(leanX, 0, leanZ);
                 Prefabify(currentPosition, woodMaterial);
                 currentPosition += Vector3.up;
             }
@@ -64,13 +69,20 @@ public class TreeCreator
 
             else if (c == '[')
             {
-
+                leanX = Random.Range(-1, 2);
+                leanZ = Random.Range(-1, 2);
+                currentPosition += new Vector3(leanX, 0, leanZ);
+                branches.Add(currentPosition);
             }
 
             else if (c == ']')
-            {
-                
+            {   
+                leanX = leanX * -1;
+                leanZ = leanZ * -1;
+                currentPosition = branches.Last() + new Vector3(leanX, 0, leanZ);
             }
+
+            Prefabify(currentPosition, woodMaterial);
         }
     }
 
