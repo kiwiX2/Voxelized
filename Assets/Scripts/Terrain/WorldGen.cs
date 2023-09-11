@@ -88,8 +88,10 @@ public class WorldGen
         {
             case 0:
                 return voxelColor + colorMod;
+
             case 1:
                 return voxelColor - colorMod;
+                
             default:
                 return voxelColor;
         }
