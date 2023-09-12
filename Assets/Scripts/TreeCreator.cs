@@ -73,7 +73,7 @@ public class TreeCreator
             {
                 case 'V':
                     currentPosition += new Vector3(leanX, 0, leanZ);
-                    Prefabify(currentPosition, woodMaterial, 0.8f);
+                    Prefabify(currentPosition, woodMaterial, 1f);
                     currentPosition += Vector3.up;
                     break;
 
@@ -93,7 +93,7 @@ public class TreeCreator
                     break;
             }
 
-            Prefabify(currentPosition, woodMaterial, 1);
+            Prefabify(currentPosition, woodMaterial, 1f);
         }
     }
 
