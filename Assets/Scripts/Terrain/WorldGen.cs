@@ -2,23 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldGen
+public class WorldGen : MonoBehaviour
 {
     Color colorMod = new Color(0.05f, 0.05f, 0.05f);
+    GameObject[] trees; 
     Color voxelColor;
     float snowOffset;
     float snowThreshold = 0.85f;
     float stoneOffset;
     float stoneThreshold = 0.65f;
-    Dictionary<Vector3, GameObject> voxelObjects; 
+    Dictionary<Vector3, GameObject> voxelObjects = new Dictionary<Vector3, GameObject>(); 
 
-    public WorldGen()
+    public void Chunkify(Vector2 chunkCoordinate, int chunkSize, float heightScale, float pointDistance, GameObject[] treesArray, bool create)
     {
-        voxelObjects = new Dictionary<Vector3, GameObject>();
-    }
-
-    public void Chunkify(Vector2 chunkCoordinate, int chunkSize, float heightScale, float pointDistance, bool create)
-    {
+        trees = treesArray;
         snowOffset = heightScale * 0.8f;
         stoneOffset = heightScale * 0.5f;
         int mapOffset = 10000;
@@ -31,7 +28,6 @@ public class WorldGen
                 Vector2 chunkInWorld = new Vector2(chunkCoordinate.x * chunkSize, chunkCoordinate.y * chunkSize); 
                 float currentXCoordinate = i + chunkInWorld.x;
                 float currentZCoordinate = j + chunkInWorld.y;
-
                 map[i, j] = Mathf.PerlinNoise(
                     (currentXCoordinate + mapOffset) * pointDistance * 0.1f, 
                     (currentZCoordinate + mapOffset) * pointDistance * 0.1f
@@ -78,9 +74,10 @@ public class WorldGen
                 //tree chance on grass voxels
                 if (Random.value > 0.99f)
                 {
-                    TreeGeneratorinator(voxelPos);
+                    int rngTree = Random.Range(0, 3);
+                    Debug.Log(trees[rngTree]);
+                    Instantiate(trees[rngTree], voxelPos, Quaternion.identity);
                 }
-
                 break;
         }
 

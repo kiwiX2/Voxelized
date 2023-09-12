@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    GameObject[] trees;
     Vector3 playerPosition;
     Vector2 playerChunk;
     Vector2 previousChunk = new Vector2(1, 1);
     Vector2 chunkCoordinate;
+    Dictionary<Vector2, bool> chunkMap = new Dictionary<Vector2, bool>();
     WorldGen worldGen;
-    Dictionary<Vector2, bool> chunkMap;
 
     public int chunkSize = 16;
     public float heightScale = 5f;
@@ -20,19 +21,27 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         worldGen = new WorldGen();
-        chunkMap = new Dictionary<Vector2, bool>();
+        trees = new GameObject[] {
+            Resources.Load<GameObject>("Tree0"), 
+            Resources.Load<GameObject>("Tree1"), 
+            Resources.Load<GameObject>("Tree2")
+        };
     }
 
     void Update()
     {
         playerPosition = playerObject.transform.position;
-        playerChunk = new Vector2(Mathf.Floor(playerPosition.x / chunkSize), Mathf.Floor(playerPosition.z / chunkSize));
+        playerChunk = new Vector2(
+            Mathf.Floor(playerPosition.x / chunkSize), 
+            Mathf.Floor(playerPosition.z / chunkSize)
+        );
+
         if (previousChunk == playerChunk) 
         {
             return;
         }
+        
         previousChunk = playerChunk;
-
         CallGeneration();
         NukeChunks();
     }
@@ -44,10 +53,11 @@ public class GameManager : MonoBehaviour
             for (int j = -renderDistance; j <= renderDistance; j++)
             {
                 chunkCoordinate = playerChunk + new Vector2(i, j);
+
                 if (!chunkMap.ContainsKey(chunkCoordinate)) 
                 {
                     chunkMap[chunkCoordinate] = true;
-                    worldGen.Chunkify(chunkCoordinate, chunkSize, heightScale, pointDistance, true);
+                    worldGen.Chunkify(chunkCoordinate, chunkSize, heightScale, pointDistance, trees, true);
                 }
             }
         }
@@ -56,6 +66,7 @@ public class GameManager : MonoBehaviour
     void NukeChunks()
     {
         List<Vector2> chunksToNuke = new List<Vector2>();
+
         foreach (var chunk in chunkMap.Keys) 
         {
             int distanceX = Mathf.Abs((int)(playerChunk.x - chunk.x));
@@ -66,9 +77,10 @@ public class GameManager : MonoBehaviour
                 chunksToNuke.Add(chunk);
             }
         }
+
         foreach (Vector2 chunk in chunksToNuke) 
         {
-            worldGen.Chunkify(chunk, chunkSize, heightScale, pointDistance, false);
+            worldGen.Chunkify(chunk, chunkSize, heightScale, pointDistance, trees, false);
             chunkMap.Remove(chunk);
         }
     }

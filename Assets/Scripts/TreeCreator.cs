@@ -6,37 +6,40 @@ using System.Linq;
 
 public class TreeCreator
 {
+    Material woodMaterial;
+    Material leafMaterial;
     GameObject empty;
 
     string[] rules = {
-        "V[V[L]]",
-        "V[]",
-        "V[L[L]]",
-        "V[L]L"
+        "V[VV][V]V",
+        "VV[VVV]V",
+        "V[V[V]V]",
+        "V[V]V",
+        "V[VV]"
     };
     string axiom = "V";
-    int iterations = 1;
     int leanX = 0;
     int leanZ = 0;
     int tempLean;
 
-    public void CreateTree(Material woodMaterial, Material leafMaterial)
+    public void CreateTree(Material woodMat, Material leafMat, int iteration)
     {
-        for (int i = 1; i < Random.Range(2, 5); i++)
+        woodMaterial = woodMat;
+        leafMaterial = leafMat;
+
+        for (int i = 1; i < Random.Range(2, 6); i++)
         {
             axiom += "V";
         }
         
-        string tree = axiom;   
-        empty = new GameObject("Tree");
+        string tree = axiom;
+        empty = new GameObject("Tree" + iteration);
 
-        for (int i = 1; i <= iterations; i++)
-        {
-            tree = GenerateNext(tree);
-        }
+        tree = GenerateNext(tree);
 
         Treeifyinator(tree, woodMaterial, leafMaterial);
-        PrefabUtility.SaveAsPrefabAsset(empty, "Assets/Prefabs/Tree.prefab");
+        PrefabUtility.SaveAsPrefabAsset(empty, "Assets/Resources/Tree" + iteration + ".prefab");
+        empty.transform.localPosition = new Vector3(-15f + 15f * iteration, -10f, 25f);
     }
 
     string GenerateNext(string tree)
@@ -48,15 +51,8 @@ public class TreeCreator
             int rngRule = Random.Range(0, rules.Length);
             if (c == 'V') 
             {
-                output += "VV[VLL]V";
+                output += rules[rngRule];
             } 
-
-            // USE RANDOM IOÖASFUOPDVOIUGOHAISUGVSYAUOUASYGVYUADSCILUGAGILSUCXAUILGLGKUGUICLÖVSALIUV
-
-            else if (c == 'L')
-            {
-                output += "L[VV]";
-            }
         }
 
         return output;
@@ -76,9 +72,8 @@ public class TreeCreator
             switch (c)
             {
                 case 'V':
-                case 'L':
                     currentPosition += new Vector3(leanX, 0, leanZ);
-                    Prefabify(currentPosition, woodMaterial, 1);
+                    Prefabify(currentPosition, woodMaterial, 0.8f);
                     currentPosition += Vector3.up;
                     break;
 
@@ -91,8 +86,7 @@ public class TreeCreator
                     break;
 
                 case ']':
-                    leaves.Add(currentPosition);
-                    CreateLeaves(leaves, leafMaterial); 
+                    CreateLeaves(leaves, currentPosition, leafMaterial); 
 
                     GetNewLean();
                     currentPosition = branches.Last() + new Vector3(leanX, 0, leanZ);
@@ -122,9 +116,8 @@ public class TreeCreator
         leanZ = tempLean;
     }
 
-    void CreateLeaves(List<Vector3> leaves, Material leafMaterial)
+    void CreateLeaves(List<Vector3> leaves, Vector3 originPos, Material leafMaterial)
     {
-        Vector3 originPos = leaves.Last();
         int leafAmount = 75;
 
         for (int i = 0; i < leafAmount; i++)
